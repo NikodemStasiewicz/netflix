@@ -29,7 +29,7 @@ const RegisterForm = () => {
   };
 
   const inputClasses =
-    "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
+    "text-white block opacity-50 rounded-none px-2.5 pb-2.5 pt-4 w-80 text-sm text-gray-900 bg-black dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer";
 
   const emailInputClasses = clsx(inputClasses, {
     "ring-2 ring-inset ring-red-600": !!errors?.email,
@@ -49,7 +49,6 @@ const RegisterForm = () => {
         minHeight: '100vh',
       }}>
         <div className="flex justify-between items-center p-4">
-        <div></div> 
         <button
           className="absolute top-4 right-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
           onClick={handleHomeClick}
@@ -86,10 +85,10 @@ const RegisterForm = () => {
                             message: "Name is required",
                             },
                             validate: {
-                            isValidEmail: (value) =>
-                                /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+                            isValidUsername: (value) =>
+                              /^[a-zA-Z0-9]+$/.test(
                                 value
-                                ) || "Email is not valid",
+                                ) || "Username is not valid",
                             },
                         })}
                         />

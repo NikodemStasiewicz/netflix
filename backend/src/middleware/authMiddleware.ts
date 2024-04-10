@@ -1,40 +1,37 @@
 import { Request, Response, NextFunction } from "express";
-import jwt, {JwtPayload} from "jsonwebtoken"
-import User  from "../models/User";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import User from "../models/User";
 import asyncHandler from "express-async-handler";
+import { AuthenticationError } from "./errorMiddleware";
 
 const authenticate = asyncHandler(
-    async(req: Request, res: Response, next: NextFunction) => {
-        try{
-            let token = req.cookies.jwt;
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      let token = req.cookies.jwt;
 
-            if(!token){
-                res.status(401)
-                throw new Error("Not authorized, token not found")
-            }
+      if (!token) {
+        throw new AuthenticationError("Token not found");
+      }
 
-            const jwtSecret = process.env.JWT_SECRET || ""
-            const decoded = jwt.verify(token, jwtSecret) as JwtPayload
+      const jwtSecret = process.env.JWT_SECRET || "";
+      const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
 
-            if(!decoded || !decoded.userId){
-                res.status(401);
-                throw new Error("Not authorized, userId not found");
-            }
-            const user = await User.findById(decoded.userId, "_id name email");
+      if (!decoded || !decoded.userId) {
+        throw new AuthenticationError("UserId not found");
+      }
 
-            if (!user) {
-                res.status(401);
-                throw new Error("Not authorized, user not found");
-            }
+      const user = await User.findById(decoded.userId, "_id name email");
 
-            req.user = user;
-            next();
+      if (!user) {
+        throw new AuthenticationError("User not found");
+      }
 
-        } catch (e) {
-            res.status(401);
-            throw new Error("Not authorized, invalid token");
-        }
+      req.user = user;
+      next();
+    } catch (e) {
+      throw new AuthenticationError("Invalid token");
     }
+  }
 );
 
-export {authenticate};
+export { authenticate };

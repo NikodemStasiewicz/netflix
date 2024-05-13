@@ -120,7 +120,7 @@ const LoginForm = () => {
                       },
                       validate: {
                         minLength: (value) =>
-                          value.length >= 8 ||
+                          value.length >= 9 ||
                           "Password should has more than 8 characters",
                         isCapitalLetter: (value) =>
                           /[A-Z]/.test(value) ||

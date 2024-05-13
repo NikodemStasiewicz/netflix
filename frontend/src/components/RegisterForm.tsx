@@ -3,10 +3,16 @@ import { ErrorMessage } from "@hookform/error-message";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 
+
 type FormValues = {
   userName: string;
   email: string;
   password: string;
+  way:unknown;
+  dot:number;
+  day:number;
+  Number:number
+
 };
 
 const handleHomeClick = () => {
@@ -160,7 +166,7 @@ const RegisterForm = () => {
                             },
                             validate: {
                             minLength: (value) =>
-                                value.length >= 8 ||
+                                value.length >= 9 ||
                                 "Password should has more than 8 characters",
                             isCapitalLetter: (value) =>
                                 /[A-Z]/.test(value) ||
@@ -183,7 +189,6 @@ const RegisterForm = () => {
                         />
                     </div>
                     </div>
-
                     <div>
                     <button
                         type="submit"
@@ -204,4 +209,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default RegisterForm
